@@ -1,0 +1,25 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-in-the-header-component-display-the-user-s-uploaded-logo-image-user-logo-dim-200x60-png-from-frontend-public-assets-generated-to-the-left-of-the-existing-trusted-cars-wordmark-logo-both-logos-must-appear-side-by-side-do-not-remove-or-replace-the-existing-trusted-cars-logo-only-add-the-user-s-logo-on-its-left-apply-the-same-change-in-the-footer-component",
+      "featureTitle": "In the Header component, display the user's uploaded logo image (user-logo.dim_200x60.png from frontend/public/assets/generated/) to the LEFT of the existing Trusted Cars wordmark/logo. Both logos must appear side by side. Do not remove or replace the existing Trusted Cars logo — only add the user's logo on its left. Apply the same change in the Footer component.",
+      "files": [
+        "frontend/src/components/Footer.tsx",
+        "frontend/src/components/Header.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-12"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

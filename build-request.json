@@ -1,0 +1,60 @@
+{
+  "kind": "build_request",
+  "title": "Set admin credentials, add user logo to header/footer",
+  "projectName": "Trusted Cars",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-11",
+      "text": "Update the hardcoded admin credentials in the backend adminLogin function to use email 'hiteshmodi2007@gmail.com' and password 'Hitesh1234@'.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "my email is hiteshmodi2007@gmail.com and set password Hitesh1234@"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Calling adminLogin('hiteshmodi2007@gmail.com', 'Hitesh1234@') returns a successful/truthy result",
+        "Calling adminLogin with any other email/password combination returns a failure/falsy result",
+        "The admin panel login page at /admin accepts these credentials and redirects to /admin/dashboard on success"
+      ]
+    },
+    {
+      "id": "REQ-12",
+      "text": "In the Header component, display the user's uploaded logo image (user-logo.dim_200x60.png from frontend/public/assets/generated/) to the LEFT of the existing Trusted Cars wordmark/logo. Both logos must appear side by side. Do not remove or replace the existing Trusted Cars logo — only add the user's logo on its left. Apply the same change in the Footer component.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "dont remove your logo it is also looking nice only add my logo at left hand side of yours"
+        ]
+      },
+      "acceptanceCriteria": [
+        "The user's logo image appears to the left of the existing Trusted Cars logo in the sticky header",
+        "The user's logo image appears to the left of the existing Trusted Cars logo in the footer",
+        "The existing Trusted Cars wordmark/logo is still visible and not removed",
+        "Both logos are properly aligned vertically and spaced on desktop and mobile",
+        "On mobile, both logos scale appropriately and fit within the header without overflow"
+      ]
+    }
+  ],
+  "constraints": [
+    "Do not remove or replace the existing Trusted Cars logo in the header or footer",
+    "Do not link the /admin route in any public navigation",
+    "Do not modify files under frontend/src/hooks/ or frontend/src/components/ui"
+  ],
+  "nonGoals": [
+    "Adding any new pages or sections",
+    "Changing the overall site design or color scheme",
+    "Modifying any car listing or booking functionality"
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  }
+}

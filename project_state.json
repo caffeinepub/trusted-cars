@@ -1,0 +1,179 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 5,
+  "summary": "Trusted Cars — a modern, minimalistic pre-owned car dealership website for a company based in Karol Bagh, Delhi. White/Red/Black color theme, mobile responsive, with homepage, car listing, car detail, test drive booking, secure admin panel, and SEO optimization.",
+  "architectural_notes": [
+    "Color theme: White, Red, Black — minimal premium UI, no theme changes",
+    "Sticky header with logo and phone number (9582149643); logo also in footer",
+    "All Call Now buttons use tel:+919582149643; WhatsApp floating button uses https://wa.me/919582149643",
+    "Admin panel at hidden route /admin — email/password login, not accessible to public users",
+    "Admin credentials: email = hiteshmodi2007@gmail.com, password = Hitesh1234@",
+    "Header/footer logo: user's custom logo displayed to the LEFT of the existing Trusted Cars wordmark logo — both shown together"
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "existing_features": [
+    {
+      "id": "feature-apply-a-clean-premium-white-red-black-design-system-across-the-entire-site-use-white-ffffff-as-the-primary-background-deep-black-111111-for-text-and-structural-elements-and-a-vivid-red-e31b1b-as-the-accent-action-color-use-a-modern-sans-serif-font-inter-or-similar-via-google-fonts-enforce-consistent-spacing-generous-padding-and-a-minimal-card-section-aesthetic-throughout-all-pages-the-design-must-be-fully-mobile-responsive-with-a-hamburger-menu-on-mobile",
+      "title": "Apply a clean, premium White/Red/Black design system across the entire site. Use white (#FFFFFF) as the primary background, deep black (#111111) for text and structural elements, and a vivid red (#E31B1B) as the accent/action color. Use a modern sans-serif font (Inter or similar via Google Fonts). Enforce consistent spacing, generous padding, and a minimal card/section aesthetic throughout all pages. The design must be fully mobile responsive with a hamburger menu on mobile.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-a-sticky-header-component-that-appears-on-all-pages-it-must-include-the-trusted-cars-logo-text-based-or-using-the-generated-logo-image-on-the-left-navigation-links-home-cars-book-test-drive-in-the-center-and-the-phone-number-9582149643-as-a-clickable-call-now-link-tel-919582149643-styled-in-red-on-the-right-the-header-must-remain-fixed-at-the-top-when-scrolling-and-have-a-white-background-with-a-subtle-bottom-shadow",
+      "title": "Build a sticky header component that appears on all pages. It must include: the Trusted Cars logo (text-based or using the generated logo image) on the left, navigation links (Home, Cars, Book Test Drive) in the center, and the phone number '9582149643' as a clickable 'Call Now' link (tel:+919582149643) styled in red on the right. The header must remain fixed at the top when scrolling and have a white background with a subtle bottom shadow.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-the-homepage-with-the-following-sections-1-hero-section-with-headline-buy-trusted-pre-owned-cars-in-karol-bagh-subtext-certified-verified-transparent-pricing-two-cta-buttons-view-cars-navigates-to-cars-and-book-test-drive-navigates-to-book-styled-with-a-full-width-background-using-the-generated-hero-image-2-featured-cars-section-that-fetches-and-displays-featured-cars-from-the-backend-in-a-horizontal-scroll-or-grid-of-cards-3-why-choose-us-section-with-four-items-quality-check-verified-cars-easy-finance-transparent-pricing-each-with-an-icon-4-customer-reviews-section-with-3-4-static-testimonial-cards-5-clean-footer-with-trusted-cars-logo-address-karol-bagh-delhi-india-phone-9582149643-as-tel-919582149643-and-copyright",
+      "title": "Build the Homepage with the following sections: (1) Hero section with headline 'Buy Trusted Pre-Owned Cars in Karol Bagh', subtext 'Certified • Verified • Transparent Pricing', two CTA buttons — 'View Cars' (navigates to /cars) and 'Book Test Drive' (navigates to /book) — styled with a full-width background using the generated hero image. (2) Featured Cars section that fetches and displays featured cars from the backend in a horizontal scroll or grid of cards. (3) Why Choose Us section with four items: Quality Check, Verified Cars, Easy Finance, Transparent Pricing — each with an icon. (4) Customer Reviews section with 3–4 static testimonial cards. (5) Clean footer with Trusted Cars logo, address (Karol Bagh, Delhi, India), phone (9582149643 as tel:+919582149643), and copyright.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-a-car-listing-page-at-route-cars-display-all-cars-in-a-responsive-grid-each-car-card-must-show-car-image-first-image-from-images-array-brand-model-year-km-driven-fuel-type-transmission-price-formatted-in-inr-emi-starting-value-a-status-tag-available-in-green-sold-in-red-and-a-view-details-button-that-navigates-to-cars-slug-add-a-filter-sidebar-panel-with-filters-for-budget-price-range-brand-dropdown-fuel-type-transmission-and-year-filters-should-update-the-displayed-results-in-real-time-on-the-client-side",
+      "title": "Build a Car Listing page at route /cars. Display all cars in a responsive grid. Each car card must show: car image (first image from images array), brand & model, year, KM driven, fuel type, transmission, price (formatted in INR), EMI starting value, a status tag ('Available' in green / 'Sold' in red), and a 'View Details' button that navigates to /cars/:slug. Add a filter sidebar/panel with filters for: Budget (price range), Brand (dropdown), Fuel Type, Transmission, and Year. Filters should update the displayed results in real time on the client side.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-a-car-detail-page-at-route-cars-slug-the-page-must-fetch-the-car-by-slug-from-the-backend-and-display-1-an-image-gallery-slider-showing-all-car-images-with-navigation-arrows-2-full-specifications-brand-model-year-km-driven-fuel-type-transmission-ownership-3-price-prominently-displayed-in-inr-with-emi-breakdown-4-a-finance-available-info-section-5-three-action-buttons-book-test-drive-navigates-to-book-with-car-pre-selected-enquire-now-opens-a-simple-modal-with-a-name-phone-form-and-call-now-tel-919582149643-set-the-page-title-and-meta-description-dynamically-per-car-optimized-for-used-cars-in-karol-bagh",
+      "title": "Build a Car Detail page at route /cars/:slug. The page must fetch the car by slug from the backend and display: (1) an image gallery slider showing all car images with navigation arrows, (2) full specifications (brand, model, year, KM driven, fuel type, transmission, ownership), (3) price prominently displayed in INR with EMI breakdown, (4) a 'Finance Available' info section, (5) three action buttons: 'Book Test Drive' (navigates to /book with car pre-selected), 'Enquire Now' (opens a simple modal with a name/phone form), and 'Call Now' (tel:+919582149643). Set the page <title> and meta description dynamically per car, optimized for 'Used Cars in Karol Bagh'.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-a-test-drive-booking-page-at-route-book-the-form-must-include-name-required-text-input-phone-required-text-input-email-optional-email-input-preferred-date-date-picker-must-be-a-future-date-preferred-time-slot-dropdown-with-options-10-00-am-12-00-pm-2-00-pm-4-00-pm-6-00-pm-and-an-optional-car-selection-dropdown-pre-populated-from-the-cars-list-on-submit-validate-required-fields-call-the-addbooking-backend-function-and-show-a-success-confirmation-message-your-test-drive-has-been-booked-we-will-contact-you-shortly-the-form-must-be-clean-and-minimal-matching-the-site-design",
+      "title": "Build a Test Drive Booking page at route /book. The form must include: Name (required text input), Phone (required text input), Email (optional email input), Preferred Date (date picker, must be a future date), Preferred Time Slot (dropdown with options: 10:00 AM, 12:00 PM, 2:00 PM, 4:00 PM, 6:00 PM), and an optional Car selection dropdown pre-populated from the cars list. On submit, validate required fields, call the addBooking backend function, and show a success confirmation message: 'Your test drive has been booked! We will contact you shortly.' The form must be clean and minimal matching the site design.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-a-secure-admin-panel-accessible-only-at-route-admin-1-admin-login-screen-email-password-form-on-submit-call-adminlogin-backend-function-if-successful-store-an-isadmin-flag-in-localstorage-and-redirect-to-admin-dashboard-if-failed-show-error-2-admin-dashboard-must-include-tabs-sections-for-car-management-list-all-cars-with-edit-delete-mark-as-sold-actions-add-new-car-form-with-all-fields-including-multiple-image-url-inputs-and-booking-management-table-of-all-bookings-with-columns-customer-name-phone-email-car-date-time-status-option-to-update-status-export-as-csv-button-that-downloads-booking-data-as-a-csv-file-3-if-not-authenticated-redirect-to-admin-login-the-admin-route-must-not-be-linked-anywhere-in-the-public-navigation",
+      "title": "Build a secure Admin Panel accessible only at route /admin. (1) Admin Login screen: email + password form. On submit, call adminLogin() backend function. If successful, store an 'isAdmin' flag in localStorage and redirect to /admin/dashboard. If failed, show error. (2) Admin Dashboard must include tabs/sections for: Car Management (list all cars with Edit, Delete, Mark as Sold actions; Add New Car form with all fields including multiple image URL inputs) and Booking Management (table of all bookings with columns: customer name, phone, email, car, date, time, status; option to update status; Export as CSV button that downloads booking data as a CSV file). (3) If not authenticated, redirect to /admin login. The /admin route must not be linked anywhere in the public navigation.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-floating-whatsapp-button-visible-on-all-pages-fixed-bottom-right-the-button-must-link-to-https-wa-me-919582149643-open-in-a-new-tab-use-the-whatsapp-green-color-25d366-display-a-whatsapp-icon-and-have-a-subtle-hover-animation-it-must-not-overlap-any-critical-ui-on-mobile",
+      "title": "Add a floating WhatsApp button visible on all pages (fixed bottom-right). The button must link to https://wa.me/919582149643, open in a new tab, use the WhatsApp green color (#25D366), display a WhatsApp icon, and have a subtle hover animation. It must not overlap any critical UI on mobile.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-use-the-generated-logo-image-trusted-cars-logo-dim-200x60-png-in-the-sticky-header-and-footer-use-the-generated-hero-background-image-hero-bg-dim-1440x700-png-in-the-homepage-hero-section-as-a-full-width-background-with-a-dark-overlay-to-ensure-text-readability",
+      "title": "Use the generated logo image (trusted-cars-logo.dim_200x60.png) in the sticky header and footer. Use the generated hero background image (hero-bg.dim_1440x700.png) in the homepage hero section as a full-width background with a dark overlay to ensure text readability.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-in-the-header-component-display-the-user-s-uploaded-logo-image-user-logo-dim-200x60-png-from-frontend-public-assets-generated-to-the-left-of-the-existing-trusted-cars-wordmark-logo-both-logos-must-appear-side-by-side-do-not-remove-or-replace-the-existing-trusted-cars-logo-only-add-the-user-s-logo-on-its-left-apply-the-same-change-in-the-footer-component",
+      "title": "In the Header component, display the user's uploaded logo image (user-logo.dim_200x60.png from frontend/public/assets/generated/) to the LEFT of the existing Trusted Cars wordmark/logo. Both logos must appear side by side. Do not remove or replace the existing Trusted Cars logo — only add the user's logo on its left. Apply the same change in the Footer component.",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Homepage with hero section, featured cars, Why Choose Us, customer reviews, and footer",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Car listing page with grid layout, car cards (image, specs, price, EMI, status), and filters (budget, brand, fuel, transmission, year)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Car detail page with image gallery slider, full specs, price breakdown, finance section, and action buttons (Book Test Drive, Enquire Now, Call Now)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Test drive booking system with form (name, phone, email, date, time slot), confirmation message, database save, and admin email notification",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Secure admin panel at /admin with login, car management (add/edit/delete/sold/images), booking management, and export functionality",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Database structure: Cars collection (title, brand, model, year, km, fuel, transmission, ownership, price, EMI, description, images, status, featured, slug) and Bookings collection",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "SEO optimization: friendly URLs, meta title/description per car, optimized for 'Used Cars in Karol Bagh'",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "WhatsApp floating button linked to https://wa.me/919582149643 and Call Now buttons using tel:+919582149643 throughout the site",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-9",
+      "summary": "Implement the backend data model and actor for Cars and Bookings. Cars record must include: id (Nat), title (Text), brand (Text), model (Text), year (Nat), kmDriven (Nat), fuelType (Text), transmission (Text), ownership (Text), price (Nat), emi (Nat), description (Text), images ([Text]), status (Text — 'Available' | 'Sold'), featured (Bool), slug (Text). Bookings record must include: id (Nat), customerName (Text), phone (Text), email (Text), carId (Nat), date (Text), timeSlot (Text), status (Text). Expose CRUD functions for both collections: addCar, updateCar, deleteCar, getCars, getCarBySlug, getFeaturedCars, markCarAsSold; addBooking, getBookings, updateBookingStatus. Also include admin authentication: a hardcoded admin credential check (adminLogin(email, password) -> Bool) that returns a session token or Bool. All state persists across upgrades using stable variables.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-10",
+      "summary": "Set admin credentials: email hiteshmodi2007@gmail.com, password Hitesh1234@",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-11",
+      "summary": "Add user's uploaded logo to the left of the existing Trusted Cars wordmark logo in header and footer (keep both logos side by side)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-12",
+      "summary": "Update the hardcoded admin credentials in the backend adminLogin function to use email 'hiteshmodi2007@gmail.com' and password 'Hitesh1234@'.",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Trusted Cars",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}
