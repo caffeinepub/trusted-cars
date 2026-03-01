@@ -2,11 +2,10 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-in-the-header-component-display-the-user-s-uploaded-logo-image-user-logo-dim-200x60-png-from-frontend-public-assets-generated-to-the-left-of-the-existing-trusted-cars-wordmark-logo-both-logos-must-appear-side-by-side-do-not-remove-or-replace-the-existing-trusted-cars-logo-only-add-the-user-s-logo-on-its-left-apply-the-same-change-in-the-footer-component",
-      "featureTitle": "In the Header component, display the user's uploaded logo image (user-logo.dim_200x60.png from frontend/public/assets/generated/) to the LEFT of the existing Trusted Cars wordmark/logo. Both logos must appear side by side. Do not remove or replace the existing Trusted Cars logo — only add the user's logo on its left. Apply the same change in the Footer component.",
+      "featureId": "feature-fix-the-admin-login-page-so-that-it-no-longer-requires-an-admin-token-to-be-present-in-the-url-before-allowing-login-the-error-message-admin-token-not-configured-please-access-the-admin-panel-via-the-correct-url-with-the-admin-token-must-be-removed-the-admin-login-flow-must-work-by-simply-navigating-to-admin-and-submitting-valid-credentials-email-hiteshmodi2007-gmail-com-password-hitesh1234-without-any-url-token-prerequisite-remove-or-bypass-any-token-presence-check-that-blocks-the-login-form-submission",
+      "featureTitle": "Fix the Admin Login page so that it no longer requires an admin token to be present in the URL before allowing login. The error message 'Admin token not configured. Please access the admin panel via the correct URL with the admin token.' must be removed. The admin login flow must work by simply navigating to /admin and submitting valid credentials (email: hiteshmodi2007@gmail.com, password: Hitesh1234@) without any URL token prerequisite. Remove or bypass any token-presence check that blocks the login form submission.",
       "files": [
-        "frontend/src/components/Footer.tsx",
-        "frontend/src/components/Header.tsx"
+        "frontend/src/hooks/useQueries.ts"
       ],
       "components": [
         "authorization@4.0.0",
@@ -17,7 +16,27 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-12"
+        "REQ-23"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-audit-the-useadminactor-hook-and-usequeries-adminlogin-mutation-to-ensure-the-admin-actor-is-initialized-correctly-without-depending-on-a-url-based-token-the-admin-session-must-be-established-using-only-the-credentials-returned-from-the-backend-adminlogin-call-after-a-successful-adminlogin-the-admin-actor-must-be-ready-to-make-authenticated-calls-e-g-addcar-without-requiring-a-separately-injected-url-token",
+      "featureTitle": "Audit the useAdminActor hook and useQueries adminLogin mutation to ensure the admin actor is initialized correctly without depending on a URL-based token. The admin session must be established using only the credentials returned from the backend adminLogin call. After a successful adminLogin, the admin actor must be ready to make authenticated calls (e.g., addCar) without requiring a separately injected URL token.",
+      "files": [
+        "frontend/src/hooks/useAdminActor.ts",
+        "frontend/src/hooks/useQueries.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-24"
       ],
       "confidence": "high"
     }

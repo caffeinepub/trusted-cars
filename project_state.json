@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 5,
+  "projectStateVersion": 19,
   "summary": "Trusted Cars — a modern, minimalistic pre-owned car dealership website for a company based in Karol Bagh, Delhi. White/Red/Black color theme, mobile responsive, with homepage, car listing, car detail, test drive booking, secure admin panel, and SEO optimization.",
   "architectural_notes": [
     "Color theme: White, Red, Black — minimal premium UI, no theme changes",
@@ -10,8 +10,10 @@
     "Admin credentials: email = hiteshmodi2007@gmail.com, password = Hitesh1234@",
     "Header/footer logo: user's custom logo displayed to the LEFT of the existing Trusted Cars wordmark logo — both shown together"
   ],
-  "known_issues": [],
-  "isFixRequest": false,
+  "known_issues": [
+    "Add Car form in admin panel submits without error but car is not being saved — silent failure on addCar mutation"
+  ],
+  "isFixRequest": true,
   "existing_features": [
     {
       "id": "feature-apply-a-clean-premium-white-red-black-design-system-across-the-entire-site-use-white-ffffff-as-the-primary-background-deep-black-111111-for-text-and-structural-elements-and-a-vivid-red-e31b1b-as-the-accent-action-color-use-a-modern-sans-serif-font-inter-or-similar-via-google-fonts-enforce-consistent-spacing-generous-padding-and-a-minimal-card-section-aesthetic-throughout-all-pages-the-design-must-be-fully-mobile-responsive-with-a-hamburger-menu-on-mobile",
@@ -92,6 +94,70 @@
         "REQ-12"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-in-the-adminloginpage-component-add-detailed-client-side-logging-console-error-of-the-exact-error-returned-by-the-adminlogin-mutation-to-aid-debugging-also-ensure-the-error-message-displayed-to-the-user-clearly-distinguishes-between-a-network-connection-error-and-an-invalid-credentials-error",
+      "title": "In the AdminLoginPage component, add detailed client-side logging (console.error) of the exact error returned by the adminLogin mutation to aid debugging. Also ensure the error message displayed to the user clearly distinguishes between a network/connection error and an invalid credentials error.",
+      "reqIds": [
+        "REQ-14"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-in-the-adminloginpage-frontend-component-frontend-src-pages-admin-adminloginpage-tsx-add-a-debug-console-log-before-the-mutation-call-that-prints-the-exact-email-string-and-its-length-and-the-exact-password-string-and-its-length-this-will-confirm-on-the-client-side-that-no-extra-whitespace-or-invisible-characters-are-being-sent-to-the-backend-also-ensure-the-form-s-onsubmit-handler-calls-e-preventdefault-and-that-the-input-values-are-read-via-controlled-state-not-directly-from-dom-to-rule-out-any-form-encoding-issue",
+      "title": "In the AdminLoginPage frontend component (frontend/src/pages/admin/AdminLoginPage.tsx), add a debug console.log before the mutation call that prints the exact email string and its length, and the exact password string and its length. This will confirm on the client side that no extra whitespace or invisible characters are being sent to the backend. Also ensure the form's onSubmit handler calls e.preventDefault() and that the input values are read via controlled state (not directly from DOM), to rule out any form-encoding issue.",
+      "reqIds": [
+        "REQ-16"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-in-frontend-src-pages-admin-adminloginpage-tsx-after-a-failed-login-attempt-display-the-raw-error-details-from-the-backend-response-in-a-visible-debug-panel-on-the-page-not-just-in-the-console-so-the-user-can-see-the-exact-failure-reason-this-panel-should-show-the-error-message-string-and-if-available-the-http-status-code-or-canister-rejection-code-this-panel-is-only-shown-when-an-error-occurs-and-should-be-dismissible",
+      "title": "In frontend/src/pages/admin/AdminLoginPage.tsx, after a failed login attempt, display the raw error details from the backend response in a visible debug panel on the page (not just in the console) so the user can see the exact failure reason. This panel should show: the error message string, and if available, the HTTP status code or canister rejection code. This panel is only shown when an error occurs and should be dismissible.",
+      "reqIds": [
+        "REQ-18"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-in-the-admin-dashboard-frontend-src-pages-admin-admindashboardpage-tsx-and-the-carform-component-frontend-src-components-admin-carform-tsx-replace-the-upload-your-car-later-placeholder-with-a-fully-functional-add-new-car-form-the-form-must-include-all-required-fields-title-brand-model-year-km-driven-fuel-type-dropdown-petrol-diesel-cng-electric-hybrid-transmission-dropdown-manual-automatic-ownership-dropdown-1st-2nd-3rd-4th-price-inr-emi-inr-description-textarea-status-dropdown-available-sold-featured-checkbox-toggle-and-multiple-image-url-inputs-allow-adding-removing-additional-image-url-fields-dynamically-minimum-1-the-slug-must-be-auto-generated-from-brand-model-year-on-submit-validate-all-required-fields-call-the-addcar-backend-mutation-close-the-form-modal-on-success-and-show-a-success-toast-message-the-form-must-be-visible-and-accessible-from-the-car-management-tab-in-the-admin-dashboard",
+      "title": "In the Admin Dashboard (frontend/src/pages/admin/AdminDashboardPage.tsx) and the CarForm component (frontend/src/components/admin/CarForm.tsx), replace the 'upload your car later' placeholder with a fully functional Add New Car form. The form must include all required fields: Title, Brand, Model, Year, KM Driven, Fuel Type (dropdown: Petrol/Diesel/CNG/Electric/Hybrid), Transmission (dropdown: Manual/Automatic), Ownership (dropdown: 1st/2nd/3rd/4th+), Price (INR), EMI (INR), Description (textarea), Status (dropdown: Available/Sold), Featured (checkbox/toggle), and multiple image URL inputs (allow adding/removing additional image URL fields dynamically, minimum 1). The slug must be auto-generated from Brand + Model + Year. On submit, validate all required fields, call the addCar backend mutation, close the form/modal on success, and show a success toast/message. The form must be visible and accessible from the Car Management tab in the admin dashboard.",
+      "reqIds": [
+        "REQ-19"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-in-the-carform-component-frontend-src-components-admin-carform-tsx-and-admindashboardpage-frontend-src-pages-admin-admindashboardpage-tsx-fix-the-addcar-mutation-call-so-that-1-all-form-field-values-are-correctly-mapped-to-the-exact-parameter-types-and-field-names-expected-by-the-backend-addcar-function-e-g-nat-vs-text-conversions-for-year-price-emi-kmdriven-2-the-mutation-s-onsuccess-and-onerror-callbacks-are-both-implemented-onsuccess-must-invalidate-the-cars-query-and-close-the-modal-and-show-a-success-toast-and-onerror-must-display-a-visible-error-message-to-the-user-showing-the-reason-for-failure-3-add-console-log-statements-before-the-mutation-call-that-print-the-full-payload-being-sent-so-the-mismatch-can-be-diagnosed-in-the-browser-console",
+      "title": "In the CarForm component (frontend/src/components/admin/CarForm.tsx) and AdminDashboardPage (frontend/src/pages/admin/AdminDashboardPage.tsx), fix the addCar mutation call so that: (1) all form field values are correctly mapped to the exact parameter types and field names expected by the backend addCar function (e.g., Nat vs Text conversions for year, price, emi, kmDriven), (2) the mutation's onSuccess and onError callbacks are both implemented — onSuccess must invalidate the cars query and close the modal and show a success toast, and onError must display a visible error message to the user showing the reason for failure, (3) add console.log statements before the mutation call that print the full payload being sent so the mismatch can be diagnosed in the browser console.",
+      "reqIds": [
+        "REQ-21"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-the-admin-authorization-check-in-the-backend-addcar-function-the-error-unauthorized-only-admins-can-add-cars-is-shown-even-when-the-user-is-logged-in-as-admin-the-frontend-must-pass-the-admin-session-token-credential-correctly-when-calling-addcar-and-the-backend-must-correctly-validate-the-admin-identity-audit-the-actor-s-authorization-logic-ensure-the-admin-token-or-caller-identity-passed-from-the-frontend-via-useactor-hook-url-param-token-mechanism-is-correctly-received-and-validated-in-addcar-before-rejecting-the-call-the-fix-must-ensure-that-a-logged-in-admin-can-successfully-add-a-car-without-receiving-an-unauthorized-error",
+      "title": "Fix the admin authorization check in the backend addCar function. The error 'Unauthorized: Only admins can add cars' is shown even when the user is logged in as admin. The frontend must pass the admin session token/credential correctly when calling addCar, and the backend must correctly validate the admin identity. Audit the actor's authorization logic: ensure the admin token or caller identity passed from the frontend (via useActor hook / URL param token mechanism) is correctly received and validated in addCar before rejecting the call. The fix must ensure that a logged-in admin can successfully add a car without receiving an Unauthorized error.",
+      "reqIds": [
+        "REQ-22"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-the-admin-login-page-so-that-it-no-longer-requires-an-admin-token-to-be-present-in-the-url-before-allowing-login-the-error-message-admin-token-not-configured-please-access-the-admin-panel-via-the-correct-url-with-the-admin-token-must-be-removed-the-admin-login-flow-must-work-by-simply-navigating-to-admin-and-submitting-valid-credentials-email-hiteshmodi2007-gmail-com-password-hitesh1234-without-any-url-token-prerequisite-remove-or-bypass-any-token-presence-check-that-blocks-the-login-form-submission",
+      "title": "Fix the Admin Login page so that it no longer requires an admin token to be present in the URL before allowing login. The error message 'Admin token not configured. Please access the admin panel via the correct URL with the admin token.' must be removed. The admin login flow must work by simply navigating to /admin and submitting valid credentials (email: hiteshmodi2007@gmail.com, password: Hitesh1234@) without any URL token prerequisite. Remove or bypass any token-presence check that blocks the login form submission.",
+      "reqIds": [
+        "REQ-23"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-audit-the-useadminactor-hook-and-usequeries-adminlogin-mutation-to-ensure-the-admin-actor-is-initialized-correctly-without-depending-on-a-url-based-token-the-admin-session-must-be-established-using-only-the-credentials-returned-from-the-backend-adminlogin-call-after-a-successful-adminlogin-the-admin-actor-must-be-ready-to-make-authenticated-calls-e-g-addcar-without-requiring-a-separately-injected-url-token",
+      "title": "Audit the useAdminActor hook and useQueries adminLogin mutation to ensure the admin actor is initialized correctly without depending on a URL-based token. The admin session must be established using only the credentials returned from the backend adminLogin call. After a successful adminLogin, the admin actor must be ready to make authenticated calls (e.g., addCar) without requiring a separately injected URL token.",
+      "reqIds": [
+        "REQ-24"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -168,6 +234,44 @@
       "summary": "Update the hardcoded admin credentials in the backend adminLogin function to use email 'hiteshmodi2007@gmail.com' and password 'Hitesh1234@'.",
       "reqIds": [
         "REQ-11"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-13",
+      "summary": "Fix the adminLogin function in the Motoko backend so that it correctly compares the provided email and password against the hardcoded credentials (email: 'hiteshmodi2007@gmail.com', password: 'Hitesh1234@') and returns true when both match. Investigate and resolve any issues such as whitespace trimming, text encoding differences, or incorrect comparison logic that would cause a valid credential pair to return false.",
+      "reqIds": [
+        "REQ-13"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-14",
+      "summary": "Completely rewrite the adminLogin function in the Motoko backend (backend/main.mo) to use a bulletproof byte-level equality check for the hardcoded credentials (email: 'hiteshmodi2007@gmail.com', password: 'Hitesh1234@'). Remove any prior comparison logic and replace it with a direct Text equality check using '==' after explicitly trimming any possible leading/trailing whitespace from both the input arguments and the stored constants. Add a debug-friendly variant: if the login fails, log (via Debug.print) the exact input values and their character counts alongside the stored values and their character counts, so the mismatch can be identified. The function must return true if and only if both email and password exactly match the stored credentials.",
+      "reqIds": [
+        "REQ-15"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-15",
+      "summary": "In backend/main.mo, completely replace the adminLogin function implementation with a minimal, direct hardcoded credential check: store the admin email as the exact literal string 'hiteshmodi2007@gmail.com' and the admin password as the exact literal string 'Hitesh1234@' inside the function body itself (not in stable variables). Use a single return statement: return (email == \"hiteshmodi2007@gmail.com\" and password == \"Hitesh1234@\"). Remove all prior comparison logic, stable credential variables, trimming, or helper calls. Add Debug.print statements before the comparison that log the exact input email, its size (Text.size), the exact input password, its size, and whether the comparison succeeded, so any mismatch can be diagnosed in canister logs.",
+      "reqIds": [
+        "REQ-17"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-16",
+      "summary": "Fix the Add New Car form in the admin panel — currently shows 'upload your car later' placeholder instead of a functional car upload/add form with all required fields and image URL inputs",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-17",
+      "summary": "In the backend (backend/main.mo), audit the addCar function to ensure it correctly accepts and persists a new car record to stable state. Verify that: (1) the function signature matches what the frontend is calling, (2) the car record is inserted into the stable map/array and is retrievable via getCars, (3) add Debug.print statements logging the incoming car data and the resulting map size after insertion so failures are visible in canister logs, and (4) the function returns a success value (e.g., the new car's id) that the frontend can use to confirm success.",
+      "reqIds": [
+        "REQ-20"
       ],
       "status": "pending"
     }

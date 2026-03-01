@@ -99,6 +99,23 @@ export interface Booking {
     phone: string;
     timeSlot: string;
 }
+export interface CarInput {
+    emi: bigint;
+    status: string;
+    model: string;
+    title: string;
+    featured: boolean;
+    ownership: string;
+    slug: string;
+    year: bigint;
+    description: string;
+    transmission: string;
+    fuelType: string;
+    kmDriven: bigint;
+    brand: string;
+    price: bigint;
+    images: Array<string>;
+}
 export interface UserProfile {
     name: string;
     email: string;
@@ -129,8 +146,7 @@ export enum UserRole {
 export interface backendInterface {
     _initializeAccessControlWithSecret(userSecret: string): Promise<void>;
     addBooking(bookingInput: Booking): Promise<Booking>;
-    addCar(carInput: Car): Promise<Car>;
-    adminLogin(email: string, password: string): Promise<boolean>;
+    addCar(carInput: CarInput): Promise<Car>;
     assignCallerUserRole(user: Principal, role: UserRole): Promise<void>;
     deleteCar(id: bigint): Promise<void>;
     getBookings(): Promise<Array<Booking>>;
@@ -144,7 +160,7 @@ export interface backendInterface {
     markCarAsSold(id: bigint): Promise<Car>;
     saveCallerUserProfile(profile: UserProfile): Promise<void>;
     updateBookingStatus(id: bigint, status: string): Promise<void>;
-    updateCar(id: bigint, carInput: Car): Promise<Car>;
+    updateCar(id: bigint, carInput: CarInput): Promise<Car>;
 }
 import type { UserProfile as _UserProfile, UserRole as _UserRole } from "./declarations/backend.did.d.ts";
 export class Backend implements backendInterface {
@@ -177,7 +193,7 @@ export class Backend implements backendInterface {
             return result;
         }
     }
-    async addCar(arg0: Car): Promise<Car> {
+    async addCar(arg0: CarInput): Promise<Car> {
         if (this.processError) {
             try {
                 const result = await this.actor.addCar(arg0);
@@ -188,20 +204,6 @@ export class Backend implements backendInterface {
             }
         } else {
             const result = await this.actor.addCar(arg0);
-            return result;
-        }
-    }
-    async adminLogin(arg0: string, arg1: string): Promise<boolean> {
-        if (this.processError) {
-            try {
-                const result = await this.actor.adminLogin(arg0, arg1);
-                return result;
-            } catch (e) {
-                this.processError(e);
-                throw new Error("unreachable");
-            }
-        } else {
-            const result = await this.actor.adminLogin(arg0, arg1);
             return result;
         }
     }
@@ -387,7 +389,7 @@ export class Backend implements backendInterface {
             return result;
         }
     }
-    async updateCar(arg0: bigint, arg1: Car): Promise<Car> {
+    async updateCar(arg0: bigint, arg1: CarInput): Promise<Car> {
         if (this.processError) {
             try {
                 const result = await this.actor.updateCar(arg0, arg1);

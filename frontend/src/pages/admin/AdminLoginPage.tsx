@@ -1,106 +1,104 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from '@tanstack/react-router';
-import { Mail, Lock, Loader2, AlertCircle, Car } from 'lucide-react';
-import { useAdminLogin } from '../../hooks/useQueries';
+import React, { useState } from "react";
+import { useNavigate } from "@tanstack/react-router";
+import { Eye, EyeOff, Lock, Mail, Shield } from "lucide-react";
+import { useAdminLogin } from "../../hooks/useQueries";
 
 export default function AdminLoginPage() {
   const navigate = useNavigate();
-  const adminLogin = useAdminLogin();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
-  useEffect(() => {
-    if (localStorage.getItem('isAdmin') === 'true') {
-      navigate({ to: '/admin/dashboard' });
-    }
-  }, [navigate]);
+  const loginMutation = useAdminLogin();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
     try {
-      const success = await adminLogin.mutateAsync({ email, password });
-      if (success) {
-        localStorage.setItem('isAdmin', 'true');
-        navigate({ to: '/admin/dashboard' });
-      } else {
-        setError('Invalid email or password. Please try again.');
-      }
+      await loginMutation.mutateAsync({ email, password });
+      navigate({ to: "/admin/dashboard" });
     } catch {
-      setError('Login failed. Please check your credentials and try again.');
+      // error is shown via loginMutation.isError
     }
   };
 
   return (
-    <div className="min-h-screen bg-brand-gray flex items-center justify-center px-4">
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        {/* Logo */}
+        {/* Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 mb-3">
-            <div className="w-10 h-10 bg-brand-red rounded-lg flex items-center justify-center">
-              <Car className="w-6 h-6 text-white" />
-            </div>
-            <span className="font-display font-bold text-2xl text-brand-black">
-              Trusted<span className="text-brand-red">Cars</span>
-            </span>
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-primary rounded-2xl mb-4">
+            <Shield className="w-8 h-8 text-primary-foreground" />
           </div>
-          <p className="text-brand-gray-dark text-sm">Admin Panel</p>
+          <h1 className="text-2xl font-bold text-foreground">Admin Portal</h1>
+          <p className="text-muted-foreground mt-1">Sign in to manage your inventory</p>
         </div>
 
-        <div className="bg-white rounded-xl shadow-card border border-brand-gray-mid p-8">
-          <h1 className="font-display font-bold text-xl text-brand-black mb-6">Sign In</h1>
-
-          <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Form */}
+        <div className="bg-card border border-border rounded-2xl p-8 shadow-lg">
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-brand-black mb-1.5">Email Address</label>
+              <label className="block text-sm font-medium text-foreground mb-1.5">
+                Email Address
+              </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-gray-dark" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@usedcars.com"
+                  className="w-full pl-10 pr-4 py-2.5 bg-background border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors"
+                  placeholder="admin@example.com"
                   required
-                  className="w-full pl-10 pr-4 py-2.5 border border-brand-gray-mid rounded text-sm focus:outline-none focus:ring-2 focus:ring-brand-red/30 focus:border-brand-red transition-colors"
                 />
               </div>
             </div>
 
+            {/* Password */}
             <div>
-              <label className="block text-sm font-medium text-brand-black mb-1.5">Password</label>
+              <label className="block text-sm font-medium text-foreground mb-1.5">
+                Password
+              </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-gray-dark" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter your password"
+                  className="w-full pl-10 pr-10 py-2.5 bg-background border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors"
+                  placeholder="••••••••"
                   required
-                  className="w-full pl-10 pr-4 py-2.5 border border-brand-gray-mid rounded text-sm focus:outline-none focus:ring-2 focus:ring-brand-red/30 focus:border-brand-red transition-colors"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                >
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
               </div>
             </div>
 
-            {error && (
-              <div className="flex items-center gap-2 bg-red-50 border border-red-200 rounded p-3 text-sm text-brand-red">
-                <AlertCircle className="w-4 h-4 shrink-0" />
-                {error}
+            {/* Error */}
+            {loginMutation.isError && (
+              <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-3 text-sm text-destructive">
+                {loginMutation.error?.message || "Login failed. Please try again."}
               </div>
             )}
 
+            {/* Submit */}
             <button
               type="submit"
-              disabled={adminLogin.isPending}
-              className="w-full bg-brand-red text-white py-3 rounded font-bold text-sm hover:bg-brand-red-dark transition-colors disabled:opacity-60 flex items-center justify-center gap-2"
+              disabled={loginMutation.isPending}
+              className="w-full py-2.5 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
-              {adminLogin.isPending ? (
+              {loginMutation.isPending ? (
                 <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <div className="w-4 h-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
                   Signing in...
                 </>
               ) : (
-                'Sign In'
+                "Sign In"
               )}
             </button>
           </form>

@@ -30,26 +30,6 @@ export default function CarManagementTable() {
   const [deletingId, setDeletingId] = useState<bigint | null>(null);
   const [soldId, setSoldId] = useState<bigint | null>(null);
 
-  if (isLoading) {
-    return (
-      <div className="bg-white rounded-xl border border-brand-gray-mid shadow-card p-6 space-y-3">
-        {[...Array(4)].map((_, i) => (
-          <Skeleton key={i} className="h-12 w-full" />
-        ))}
-      </div>
-    );
-  }
-
-  if (!cars || cars.length === 0) {
-    return (
-      <div className="bg-white rounded-xl border border-brand-gray-mid shadow-card p-12 text-center">
-        <AlertCircle className="w-10 h-10 text-brand-gray-dark mx-auto mb-3" />
-        <p className="font-semibold text-brand-black mb-1">No cars yet</p>
-        <p className="text-brand-gray-dark text-sm">Add your first car using the "Add Car" button above.</p>
-      </div>
-    );
-  }
-
   const handleDelete = async (id: bigint) => {
     setDeletingId(id);
     try {
@@ -68,6 +48,37 @@ export default function CarManagementTable() {
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="bg-white rounded-xl border border-brand-gray-mid shadow-card p-6 space-y-3">
+        {[...Array(4)].map((_, i) => (
+          <Skeleton key={i} className="h-12 w-full" />
+        ))}
+      </div>
+    );
+  }
+
+  if (!cars || cars.length === 0) {
+    return (
+      <>
+        <div className="bg-white rounded-xl border border-brand-gray-mid shadow-card p-12 text-center">
+          <AlertCircle className="w-10 h-10 text-brand-gray-dark mx-auto mb-3" />
+          <p className="font-semibold text-brand-black mb-1">No cars yet</p>
+          <p className="text-brand-gray-dark text-sm">
+            Add your first car using the "Add New Car" button above.
+          </p>
+        </div>
+
+        {/* Edit Modal (kept outside so it can open even when list is empty after a reset) */}
+        <CarForm
+          open={!!editingCar}
+          editCar={editingCar}
+          onClose={() => setEditingCar(null)}
+        />
+      </>
+    );
+  }
+
   return (
     <>
       <div className="bg-white rounded-xl border border-brand-gray-mid shadow-card overflow-hidden">
@@ -75,12 +86,24 @@ export default function CarManagementTable() {
           <table className="w-full text-sm">
             <thead>
               <tr className="bg-brand-gray border-b border-brand-gray-mid">
-                <th className="text-left px-4 py-3 font-semibold text-brand-black text-xs uppercase tracking-wider">Car</th>
-                <th className="text-left px-4 py-3 font-semibold text-brand-black text-xs uppercase tracking-wider hidden sm:table-cell">Year</th>
-                <th className="text-left px-4 py-3 font-semibold text-brand-black text-xs uppercase tracking-wider hidden md:table-cell">Fuel</th>
-                <th className="text-left px-4 py-3 font-semibold text-brand-black text-xs uppercase tracking-wider">Price</th>
-                <th className="text-left px-4 py-3 font-semibold text-brand-black text-xs uppercase tracking-wider">Status</th>
-                <th className="text-right px-4 py-3 font-semibold text-brand-black text-xs uppercase tracking-wider">Actions</th>
+                <th className="text-left px-4 py-3 font-semibold text-brand-black text-xs uppercase tracking-wider">
+                  Car
+                </th>
+                <th className="text-left px-4 py-3 font-semibold text-brand-black text-xs uppercase tracking-wider hidden sm:table-cell">
+                  Year
+                </th>
+                <th className="text-left px-4 py-3 font-semibold text-brand-black text-xs uppercase tracking-wider hidden md:table-cell">
+                  Fuel
+                </th>
+                <th className="text-left px-4 py-3 font-semibold text-brand-black text-xs uppercase tracking-wider">
+                  Price
+                </th>
+                <th className="text-left px-4 py-3 font-semibold text-brand-black text-xs uppercase tracking-wider">
+                  Status
+                </th>
+                <th className="text-right px-4 py-3 font-semibold text-brand-black text-xs uppercase tracking-wider">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-brand-gray-mid">
@@ -131,11 +154,13 @@ export default function CarManagementTable() {
 
                   {/* Status */}
                   <td className="px-4 py-3">
-                    <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold ${
-                      car.status === 'Available'
-                        ? 'bg-green-100 text-green-700'
-                        : 'bg-red-100 text-brand-red'
-                    }`}>
+                    <span
+                      className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold ${
+                        car.status === 'Available'
+                          ? 'bg-green-100 text-green-700'
+                          : 'bg-red-100 text-brand-red'
+                      }`}
+                    >
                       {car.status}
                     </span>
                     {car.featured && (
@@ -191,7 +216,11 @@ export default function CarManagementTable() {
                           <AlertDialogHeader>
                             <AlertDialogTitle>Delete Car</AlertDialogTitle>
                             <AlertDialogDescription>
-                              Are you sure you want to delete <strong>{car.brand} {car.model}</strong>? This action cannot be undone.
+                              Are you sure you want to delete{' '}
+                              <strong>
+                                {car.brand} {car.model}
+                              </strong>
+                              ? This action cannot be undone.
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>
@@ -215,13 +244,11 @@ export default function CarManagementTable() {
       </div>
 
       {/* Edit Modal */}
-      {editingCar && (
-        <CarForm
-          mode="edit"
-          car={editingCar}
-          onClose={() => setEditingCar(null)}
-        />
-      )}
+      <CarForm
+        open={!!editingCar}
+        editCar={editingCar}
+        onClose={() => setEditingCar(null)}
+      />
     </>
   );
 }

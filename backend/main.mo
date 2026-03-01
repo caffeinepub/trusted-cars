@@ -1,14 +1,14 @@
 import Map "mo:core/Map";
 import Nat "mo:core/Nat";
 import Text "mo:core/Text";
+import Principal "mo:core/Principal";
 import Runtime "mo:core/Runtime";
 import Order "mo:core/Order";
-import Principal "mo:core/Principal";
-import Migration "migration";
+import Debug "mo:core/Debug";
+
 import AccessControl "authorization/access-control";
 import MixinAuthorization "authorization/MixinAuthorization";
 
-(with migration = Migration.run)
 actor {
   // Authorization setup
   let accessControlState = AccessControl.initState();
@@ -23,6 +23,9 @@ actor {
   let userProfiles = Map.empty<Principal, UserProfile>();
 
   public query ({ caller }) func getCallerUserProfile() : async ?UserProfile {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
+      Runtime.trap("Unauthorized: Only users can get profiles");
+    };
     userProfiles.get(caller);
   };
 
@@ -66,6 +69,24 @@ actor {
     slug : Text;
   };
 
+  type CarInput = {
+    title : Text;
+    brand : Text;
+    model : Text;
+    year : Nat;
+    kmDriven : Nat;
+    fuelType : Text;
+    transmission : Text;
+    ownership : Text;
+    price : Nat;
+    emi : Nat;
+    description : Text;
+    images : [Text];
+    status : Text;
+    featured : Bool;
+    slug : Text;
+  };
+
   type Booking = {
     id : Nat;
     customerName : Text;
@@ -77,33 +98,45 @@ actor {
     status : Text;
   };
 
-  // Stable state for persistence across upgrades
-  stable var nextCarId = 1;
-  stable var nextBookingId = 1;
+  // Persistent state for car and booking IDs
+  var nextCarId = 1;
+  var nextBookingId = 1;
 
   let cars = Map.empty<Nat, Car>();
   let bookings = Map.empty<Nat, Booking>();
 
-  // Updated admin credentials
-  let adminEmail = "hiteshmodi2007@gmail.com";
-  let adminPassword = "Hitesh1234@";
-
   // ── Car Management (Admin only) ──────────────────────────────────────────
 
-  public shared ({ caller }) func addCar(carInput : Car) : async Car {
+  public shared ({ caller }) func addCar(carInput : CarInput) : async Car {
     if (not AccessControl.isAdmin(accessControlState, caller)) {
       Runtime.trap("Unauthorized: Only admins can add cars");
     };
     let car : Car = {
-      carInput with
       id = nextCarId;
+      title = carInput.title;
+      brand = carInput.brand;
+      model = carInput.model;
+      year = carInput.year;
+      kmDriven = carInput.kmDriven;
+      fuelType = carInput.fuelType;
+      transmission = carInput.transmission;
+      ownership = carInput.ownership;
+      price = carInput.price;
+      emi = carInput.emi;
+      description = carInput.description;
+      images = carInput.images;
+      status = "Available";
+      featured = carInput.featured;
+      slug = carInput.slug;
     };
+    Debug.print("Adding car with data: " # debug_show (car));
     cars.add(nextCarId, car);
+    Debug.print("Car added. New cars map size: " # debug_show (cars.size()));
     nextCarId += 1;
     car;
   };
 
-  public shared ({ caller }) func updateCar(id : Nat, carInput : Car) : async Car {
+  public shared ({ caller }) func updateCar(id : Nat, carInput : CarInput) : async Car {
     if (not AccessControl.isAdmin(accessControlState, caller)) {
       Runtime.trap("Unauthorized: Only admins can update cars");
     };
@@ -111,8 +144,22 @@ actor {
       case (null) { Runtime.trap("Car not found") };
       case (?_) {
         let updatedCar : Car = {
-          carInput with
           id;
+          title = carInput.title;
+          brand = carInput.brand;
+          model = carInput.model;
+          year = carInput.year;
+          kmDriven = carInput.kmDriven;
+          fuelType = carInput.fuelType;
+          transmission = carInput.transmission;
+          ownership = carInput.ownership;
+          price = carInput.price;
+          emi = carInput.emi;
+          description = carInput.description;
+          images = carInput.images;
+          status = "Available";
+          featured = carInput.featured;
+          slug = carInput.slug;
         };
         cars.add(id, updatedCar);
         updatedCar;
@@ -201,17 +248,5 @@ actor {
         bookings.add(id, updatedBooking);
       };
     };
-  };
-
-  // ── Admin Authentication ─────────────────────────────────────────────────
-
-  // Validates credentials and assigns the #admin role to the caller principal
-  public shared ({ caller }) func adminLogin(email : Text, password : Text) : async Bool {
-    if (email == adminEmail and password == adminPassword) {
-      // Assign admin role to the calling principal
-      AccessControl.assignRole(accessControlState, caller, caller, #admin);
-      return true;
-    };
-    false;
   };
 };

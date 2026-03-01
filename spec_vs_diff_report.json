@@ -1,43 +1,40 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-03-01T10:54:51.988Z",
-  "summary": "Both REQ-11 and REQ-12 appear to be partially implemented. REQ-11 is addressed by updating admin credentials in backend/main.mo. REQ-12 is addressed in both Header.tsx and Footer.tsx, but the implementation uses the wrong image file for the user logo — the spec requires 'user-logo.dim_200x60.png' from 'frontend/public/assets/generated/' but the diff uses 'trusted_cars_logo-removebg-preview.png' for the user logo position instead.",
+  "generatedAt": "2026-03-01T12:55:51.029Z",
+  "summary": "The diff addresses both REQ-23 and REQ-24 by removing the URL token gate from the admin login flow, simplifying the AdminLoginPage, and refactoring useAdminActor/useQueries to use localStorage-based admin state instead of URL tokens. Most acceptance criteria appear to be met, though one AC for REQ-24 warrants scrutiny regarding the actor's actual backend initialization.",
   "missing_requirements": [
     {
-      "id": "REQ-12",
-      "requirement": "Display the user's uploaded logo image 'user-logo.dim_200x60.png' from 'frontend/public/assets/generated/' to the LEFT of the existing Trusted Cars wordmark/logo in both Header and Footer.",
-      "reason": "The diff uses '/assets/trusted_cars_logo-removebg-preview.png' as the left (user) logo, not the specified 'user-logo.dim_200x60.png' from 'frontend/public/assets/generated/'. The specified asset file is never referenced anywhere in the diff.",
+      "id": "REQ-24",
+      "requirement": "The useAdminActor or equivalent hook initializes the actor using the stored session, not a URL parameter. After login, admin operations like addCar work without a 'token not configured' error.",
+      "reason": "The hook calls actor._initializeAccessControlWithSecret('') with an empty string. It is unclear whether the backend canister actually accepts an empty secret for principal-based access control, which could mean addCar still fails in practice. The diff does not show any backend change or evidence that the canister supports empty-secret initialization, leaving the AC 'After login, admin operations like addCar work without a token not configured error' potentially unmet at runtime.",
       "evidence": [
-        "frontend/src/components/Header.tsx",
-        "frontend/src/components/Footer.tsx"
+        "frontend/src/hooks/useAdminActor.ts",
+        "frontend/src/hooks/useQueries.ts"
       ]
     }
   ],
   "hallucinated_features": [
     {
-      "description": "A vertical divider element was added between the two logos in both Header and Footer.",
-      "reason": "The build request only asked to display the user logo to the left of the Trusted Cars logo side by side — no divider was requested.",
+      "description": "Client-side credential hardcoding in useQueries.ts — the adminLogin mutation validates email and password entirely on the frontend against hardcoded constants without calling the backend adminLogin function at all.",
+      "reason": "The build request states the backend adminLogin function should be called with the credentials; it explicitly says 'Do not change the hardcoded admin credentials in the backend' implying the backend should still be invoked. The diff bypasses the backend call entirely and performs authentication only client-side, which was not requested and introduces a security regression.",
       "evidence": [
-        "frontend/src/components/Header.tsx",
-        "frontend/src/components/Footer.tsx"
+        "frontend/src/hooks/useQueries.ts"
       ]
     },
     {
-      "description": "A migration module was added to the backend.",
-      "reason": "No migration module was requested in the build request. The requirements only cover admin credentials update and logo display changes.",
+      "description": "storeAdminToken, clearAdminToken, and getAdminToken utility functions are exported from useAdminActor.ts but are never used in the new login flow.",
+      "reason": "These token storage utilities were added to the hook file but the new flow does not use URL or session tokens at all. They appear to be vestigial code not requested by the build spec.",
       "evidence": [
-        "backend/migration.mo"
+        "frontend/src/hooks/useAdminActor.ts"
       ]
     }
   ],
-  "confidence": 0.82,
+  "confidence": 0.72,
   "changed_files": [
-    "backend/main.mo",
-    "backend/migration.mo",
     "frontend-file-summaries.txt",
-    "frontend/src/components/Footer.tsx",
-    "frontend/src/components/Header.tsx",
+    "frontend/src/hooks/useAdminActor.ts",
+    "frontend/src/hooks/useQueries.ts",
     "project_state.json"
   ]
 }

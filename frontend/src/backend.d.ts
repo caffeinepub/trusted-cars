@@ -17,6 +17,23 @@ export interface Booking {
     phone: string;
     timeSlot: string;
 }
+export interface CarInput {
+    emi: bigint;
+    status: string;
+    model: string;
+    title: string;
+    featured: boolean;
+    ownership: string;
+    slug: string;
+    year: bigint;
+    description: string;
+    transmission: string;
+    fuelType: string;
+    kmDriven: bigint;
+    brand: string;
+    price: bigint;
+    images: Array<string>;
+}
 export interface UserProfile {
     name: string;
     email: string;
@@ -46,8 +63,7 @@ export enum UserRole {
 }
 export interface backendInterface {
     addBooking(bookingInput: Booking): Promise<Booking>;
-    addCar(carInput: Car): Promise<Car>;
-    adminLogin(email: string, password: string): Promise<boolean>;
+    addCar(carInput: CarInput): Promise<Car>;
     assignCallerUserRole(user: Principal, role: UserRole): Promise<void>;
     deleteCar(id: bigint): Promise<void>;
     getBookings(): Promise<Array<Booking>>;
@@ -61,5 +77,5 @@ export interface backendInterface {
     markCarAsSold(id: bigint): Promise<Car>;
     saveCallerUserProfile(profile: UserProfile): Promise<void>;
     updateBookingStatus(id: bigint, status: string): Promise<void>;
-    updateCar(id: bigint, carInput: Car): Promise<Car>;
+    updateCar(id: bigint, carInput: CarInput): Promise<Car>;
 }

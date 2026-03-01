@@ -18,6 +18,23 @@ export const Booking = IDL.Record({
   'phone' : IDL.Text,
   'timeSlot' : IDL.Text,
 });
+export const CarInput = IDL.Record({
+  'emi' : IDL.Nat,
+  'status' : IDL.Text,
+  'model' : IDL.Text,
+  'title' : IDL.Text,
+  'featured' : IDL.Bool,
+  'ownership' : IDL.Text,
+  'slug' : IDL.Text,
+  'year' : IDL.Nat,
+  'description' : IDL.Text,
+  'transmission' : IDL.Text,
+  'fuelType' : IDL.Text,
+  'kmDriven' : IDL.Nat,
+  'brand' : IDL.Text,
+  'price' : IDL.Nat,
+  'images' : IDL.Vec(IDL.Text),
+});
 export const Car = IDL.Record({
   'id' : IDL.Nat,
   'emi' : IDL.Nat,
@@ -49,8 +66,7 @@ export const UserProfile = IDL.Record({
 export const idlService = IDL.Service({
   '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
   'addBooking' : IDL.Func([Booking], [Booking], []),
-  'addCar' : IDL.Func([Car], [Car], []),
-  'adminLogin' : IDL.Func([IDL.Text, IDL.Text], [IDL.Bool], []),
+  'addCar' : IDL.Func([CarInput], [Car], []),
   'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
   'deleteCar' : IDL.Func([IDL.Nat], [], []),
   'getBookings' : IDL.Func([], [IDL.Vec(Booking)], ['query']),
@@ -68,7 +84,7 @@ export const idlService = IDL.Service({
   'markCarAsSold' : IDL.Func([IDL.Nat], [Car], []),
   'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
   'updateBookingStatus' : IDL.Func([IDL.Nat, IDL.Text], [], []),
-  'updateCar' : IDL.Func([IDL.Nat, Car], [Car], []),
+  'updateCar' : IDL.Func([IDL.Nat, CarInput], [Car], []),
 });
 
 export const idlInitArgs = [];
@@ -83,6 +99,23 @@ export const idlFactory = ({ IDL }) => {
     'email' : IDL.Text,
     'phone' : IDL.Text,
     'timeSlot' : IDL.Text,
+  });
+  const CarInput = IDL.Record({
+    'emi' : IDL.Nat,
+    'status' : IDL.Text,
+    'model' : IDL.Text,
+    'title' : IDL.Text,
+    'featured' : IDL.Bool,
+    'ownership' : IDL.Text,
+    'slug' : IDL.Text,
+    'year' : IDL.Nat,
+    'description' : IDL.Text,
+    'transmission' : IDL.Text,
+    'fuelType' : IDL.Text,
+    'kmDriven' : IDL.Nat,
+    'brand' : IDL.Text,
+    'price' : IDL.Nat,
+    'images' : IDL.Vec(IDL.Text),
   });
   const Car = IDL.Record({
     'id' : IDL.Nat,
@@ -112,8 +145,7 @@ export const idlFactory = ({ IDL }) => {
   return IDL.Service({
     '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
     'addBooking' : IDL.Func([Booking], [Booking], []),
-    'addCar' : IDL.Func([Car], [Car], []),
-    'adminLogin' : IDL.Func([IDL.Text, IDL.Text], [IDL.Bool], []),
+    'addCar' : IDL.Func([CarInput], [Car], []),
     'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
     'deleteCar' : IDL.Func([IDL.Nat], [], []),
     'getBookings' : IDL.Func([], [IDL.Vec(Booking)], ['query']),
@@ -131,7 +163,7 @@ export const idlFactory = ({ IDL }) => {
     'markCarAsSold' : IDL.Func([IDL.Nat], [Car], []),
     'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
     'updateBookingStatus' : IDL.Func([IDL.Nat, IDL.Text], [], []),
-    'updateCar' : IDL.Func([IDL.Nat, Car], [Car], []),
+    'updateCar' : IDL.Func([IDL.Nat, CarInput], [Car], []),
   });
 };
 

@@ -38,6 +38,23 @@ export interface Car {
   'price' : bigint,
   'images' : Array<string>,
 }
+export interface CarInput {
+  'emi' : bigint,
+  'status' : string,
+  'model' : string,
+  'title' : string,
+  'featured' : boolean,
+  'ownership' : string,
+  'slug' : string,
+  'year' : bigint,
+  'description' : string,
+  'transmission' : string,
+  'fuelType' : string,
+  'kmDriven' : bigint,
+  'brand' : string,
+  'price' : bigint,
+  'images' : Array<string>,
+}
 export interface UserProfile { 'name' : string, 'email' : string }
 export type UserRole = { 'admin' : null } |
   { 'user' : null } |
@@ -45,8 +62,7 @@ export type UserRole = { 'admin' : null } |
 export interface _SERVICE {
   '_initializeAccessControlWithSecret' : ActorMethod<[string], undefined>,
   'addBooking' : ActorMethod<[Booking], Booking>,
-  'addCar' : ActorMethod<[Car], Car>,
-  'adminLogin' : ActorMethod<[string, string], boolean>,
+  'addCar' : ActorMethod<[CarInput], Car>,
   'assignCallerUserRole' : ActorMethod<[Principal, UserRole], undefined>,
   'deleteCar' : ActorMethod<[bigint], undefined>,
   'getBookings' : ActorMethod<[], Array<Booking>>,
@@ -60,7 +76,7 @@ export interface _SERVICE {
   'markCarAsSold' : ActorMethod<[bigint], Car>,
   'saveCallerUserProfile' : ActorMethod<[UserProfile], undefined>,
   'updateBookingStatus' : ActorMethod<[bigint, string], undefined>,
-  'updateCar' : ActorMethod<[bigint, Car], Car>,
+  'updateCar' : ActorMethod<[bigint, CarInput], Car>,
 }
 export declare const idlService: IDL.ServiceClass;
 export declare const idlInitArgs: IDL.Type[];

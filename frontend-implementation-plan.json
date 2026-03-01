@@ -1,28 +1,53 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Set admin credentials, add user logo to header/footer",
+  "title": "Fix admin login — remove admin token URL requirement",
   "requirements": [
     {
-      "id": "REQ-12",
-      "summary": "Add user's logo (user-logo.dim_200x60.png) to the left of the existing Trusted Cars logo in both Header and Footer components, ensuring both logos display side by side without removing the existing branding",
+      "id": "REQ-23",
+      "summary": "Remove admin token URL prerequisite from admin login flow",
       "acceptanceCriteria": [
-        "The user's logo image appears to the left of the existing Trusted Cars logo in the sticky header",
-        "The user's logo image appears to the left of the existing Trusted Cars logo in the footer",
-        "The existing Trusted Cars wordmark/logo is still visible and not removed",
-        "Both logos are properly aligned vertically and spaced on desktop and mobile",
-        "On mobile, both logos scale appropriately and fit within the header without overflow"
+        "Navigating to /admin shows the login form without any error message pre-displayed",
+        "Submitting email 'hiteshmodi2007@gmail.com' and password 'Hitesh1234@' successfully authenticates and redirects to /admin/dashboard",
+        "No 'Admin token not configured' error appears at any point during normal login",
+        "The adminLogin mutation is called directly on form submit without a token gate check"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/Header.tsx",
+          "path": "frontend/src/pages/admin/AdminLoginPage.tsx",
           "operation": "modify",
-          "description": "Add the user's logo image (frontend/public/assets/generated/user-logo.dim_200x60.png) to the left of the existing Trusted Cars logo in the header. Wrap both logos in a flex container to ensure they display side by side with proper spacing and vertical alignment. Ensure responsive behavior on mobile devices so both logos scale and fit without overflow."
+          "description": "Remove the token-presence check that blocks the login form and displays 'Admin token not configured. Please access the admin panel via the correct URL with the admin token.' error. Allow the login form to render and submit regardless of URL token presence. Remove any useEffect or pre-validation logic that reads adminToken from URL params and prevents form submission. The form should directly call the adminLogin mutation on submit with the provided credentials."
         },
         {
-          "path": "frontend/src/components/Footer.tsx",
+          "path": "frontend/src/hooks/useQueries.ts",
           "operation": "modify",
-          "description": "Add the user's logo image (frontend/public/assets/generated/user-logo.dim_200x60.png) to the left of the existing Trusted Cars logo in the footer. Wrap both logos in a flex container to ensure they display side by side with proper spacing and vertical alignment. Maintain consistent styling with the header implementation."
+          "description": "Modify the adminLogin mutation to remove any dependency on a URL-based admin token parameter. The mutation should accept email and password credentials, authenticate against the backend, and store the resulting session/token in sessionStorage or state without requiring a pre-existing token from the URL. Ensure the mutation succeeds with valid credentials alone and initializes the admin actor using the response from the backend adminLogin call."
+        }
+      ]
+    },
+    {
+      "id": "REQ-24",
+      "summary": "Ensure admin actor initializes from login response, not URL token",
+      "acceptanceCriteria": [
+        "The adminLogin mutation succeeds with correct credentials and stores the session appropriately",
+        "After login, admin operations like addCar work without a 'token not configured' error",
+        "The useAdminActor or equivalent hook initializes the actor using the stored session, not a URL parameter"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useAdminActor.ts",
+          "operation": "modify",
+          "description": "Update the admin actor initialization to retrieve the stored admin session from sessionStorage (set during adminLogin) rather than from a URL parameter. Ensure storeAdminToken and getAdminToken work with the session token returned by the backend adminLogin call. The actor should be ready for authenticated admin operations (addCar, updateCar, etc.) immediately after successful login without requiring a separate URL token."
+        },
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Ensure that after a successful adminLogin mutation, the admin token/session is stored via the storeAdminToken helper from useAdminActor. Verify that subsequent admin mutations (addCar, updateCar, deleteCar, etc.) use the admin actor initialized with this stored session. Remove any logic that tries to read or validate an admin token from URL params before allowing admin operations."
+        },
+        {
+          "path": "frontend/src/utils/urlParams.ts",
+          "operation": "modify",
+          "description": "Remove or comment out any utility functions that extract or validate the adminToken parameter from the URL. If the module is used to clean sensitive params, ensure it no longer treats adminToken as a required or gating parameter for admin functionality. This prevents any URL-based token checks from interfering with the normal login flow."
         }
       ]
     }
